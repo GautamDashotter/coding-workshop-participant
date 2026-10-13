@@ -101,6 +101,9 @@ const server = http.createServer((req, res) => {
       'accept': headers.accept || 'application/json',
       'content-type': headers['content-type'] || 'application/json',
       'user-agent': headers['user-agent'] || 'proxy-server',
+      // Forward the session token so authenticated API calls work locally
+      ...(headers['x-auth-token'] ? { 'x-auth-token': headers['x-auth-token'] } : {}),
+      ...(headers['content-length'] ? { 'content-length': headers['content-length'] } : {}),
       'host': target.host
     }
   };
